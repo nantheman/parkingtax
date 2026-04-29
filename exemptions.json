@@ -1,0 +1,10 @@
+{
+  "RESIDENTIAL": "Parking at residential buildings, apartments, and private homes",
+  "GOVERNMENT": "Government-owned or operated facilities and official vehicles",
+  "LONG-TERM": "Monthly or long-term leases (typically >30 days)",
+  "NON-PROFIT": "Churches, schools, charities, and registered non-profit organizations",
+  "VALET": "Valet parking services",
+  "PUBLIC-METER": "On-street public metered parking (often treated as regulatory fee)",
+  "MANHATTAN-RESIDENT": "Certified Manhattan residents (exempt from 8% add-on in NYC)",
+  "EDUCATIONAL": "Schools and educational institutions"
+}
