@@ -42,12 +42,12 @@
     <div id="output" class="result" style="display:none;"></div>
 
     <div class="note">
-        Separate JSON files used • US States sorted alphabetically (DC after DE, PR after PA)
+        Clean version - No flags • US States sorted alphabetically (DC after DE, PR after PA)
     </div>
 </div>
 
 <script>
-// Load external JSON files
+// ==================== DATA LOADING ====================
 let parkingDB = {}, countryNames = {}, jurisdictions = {};
 
 async function loadData() {
@@ -59,11 +59,9 @@ async function loadData() {
         ]);
         populateCountries();
     } catch (e) {
-        alert("JSON files not found. Please make sure parkingDB.json, jurisdictions.json, and countryNames.json are in the same folder as index.html");
+        alert("JSON files not found. Make sure parkingDB.json, jurisdictions.json, and countryNames.json are in the same folder as this file.");
     }
 }
-
-const flags = { "US": "🇺🇸", "CA": "🇨🇦", "GB": "🇬🇧", "IL": "🇮🇱", "AE": "🇦🇪" };
 
 function populateCountries() {
     const sel = document.getElementById("country");
@@ -71,7 +69,7 @@ function populateCountries() {
     Object.keys(jurisdictions).forEach(code => {
         const opt = document.createElement("option");
         opt.value = code;
-        opt.textContent = `${flags[code] || ''} ${countryNames[code] || code}`;
+        opt.textContent = countryNames[code] || code;
         sel.appendChild(opt);
     });
     updateStates();
