@@ -1,58 +1,19 @@
 {
   "US": {
     "states": [
-      {"code":"AL","name":"Alabama"},
-      {"code":"AK","name":"Alaska"},
-      {"code":"AZ","name":"Arizona"},
-      {"code":"AR","name":"Arkansas"},
-      {"code":"CA","name":"California"},
-      {"code":"CO","name":"Colorado"},
-      {"code":"CT","name":"Connecticut"},
-      {"code":"DE","name":"Delaware"},
-      {"code":"DC","name":"District of Columbia"},
-      {"code":"FL","name":"Florida"},
-      {"code":"GA","name":"Georgia"},
-      {"code":"HI","name":"Hawaii"},
-      {"code":"ID","name":"Idaho"},
-      {"code":"IL","name":"Illinois"},
-      {"code":"IN","name":"Indiana"},
-      {"code":"IA","name":"Iowa"},
-      {"code":"KS","name":"Kansas"},
-      {"code":"KY","name":"Kentucky"},
-      {"code":"LA","name":"Louisiana"},
-      {"code":"ME","name":"Maine"},
-      {"code":"MD","name":"Maryland"},
-      {"code":"MA","name":"Massachusetts"},
-      {"code":"MI","name":"Michigan"},
-      {"code":"MN","name":"Minnesota"},
-      {"code":"MS","name":"Mississippi"},
-      {"code":"MO","name":"Missouri"},
-      {"code":"MT","name":"Montana"},
-      {"code":"NE","name":"Nebraska"},
-      {"code":"NV","name":"Nevada"},
-      {"code":"NH","name":"New Hampshire"},
-      {"code":"NJ","name":"New Jersey"},
-      {"code":"NM","name":"New Mexico"},
-      {"code":"NY","name":"New York"},
-      {"code":"NC","name":"North Carolina"},
-      {"code":"ND","name":"North Dakota"},
-      {"code":"OH","name":"Ohio"},
-      {"code":"OK","name":"Oklahoma"},
-      {"code":"OR","name":"Oregon"},
-      {"code":"PA","name":"Pennsylvania"},
-      {"code":"PR","name":"Puerto Rico"},
-      {"code":"RI","name":"Rhode Island"},
-      {"code":"SC","name":"South Carolina"},
-      {"code":"SD","name":"South Dakota"},
-      {"code":"TN","name":"Tennessee"},
-      {"code":"TX","name":"Texas"},
-      {"code":"UT","name":"Utah"},
-      {"code":"VT","name":"Vermont"},
-      {"code":"VA","name":"Virginia"},
-      {"code":"WA","name":"Washington"},
-      {"code":"WV","name":"West Virginia"},
-      {"code":"WI","name":"Wisconsin"},
-      {"code":"WY","name":"Wyoming"}
+      {"code":"AL","name":"Alabama"}, {"code":"AK","name":"Alaska"}, {"code":"AZ","name":"Arizona"}, {"code":"AR","name":"Arkansas"},
+      {"code":"CA","name":"California"}, {"code":"CO","name":"Colorado"}, {"code":"CT","name":"Connecticut"}, {"code":"DE","name":"Delaware"},
+      {"code":"DC","name":"District of Columbia"}, {"code":"FL","name":"Florida"}, {"code":"GA","name":"Georgia"}, {"code":"HI","name":"Hawaii"},
+      {"code":"ID","name":"Idaho"}, {"code":"IL","name":"Illinois"}, {"code":"IN","name":"Indiana"}, {"code":"IA","name":"Iowa"},
+      {"code":"KS","name":"Kansas"}, {"code":"KY","name":"Kentucky"}, {"code":"LA","name":"Louisiana"}, {"code":"ME","name":"Maine"},
+      {"code":"MD","name":"Maryland"}, {"code":"MA","name":"Massachusetts"}, {"code":"MI","name":"Michigan"}, {"code":"MN","name":"Minnesota"},
+      {"code":"MS","name":"Mississippi"}, {"code":"MO","name":"Missouri"}, {"code":"MT","name":"Montana"}, {"code":"NE","name":"Nebraska"},
+      {"code":"NV","name":"Nevada"}, {"code":"NH","name":"New Hampshire"}, {"code":"NJ","name":"New Jersey"}, {"code":"NM","name":"New Mexico"},
+      {"code":"NY","name":"New York"}, {"code":"NC","name":"North Carolina"}, {"code":"ND","name":"North Dakota"}, {"code":"OH","name":"Ohio"},
+      {"code":"OK","name":"Oklahoma"}, {"code":"OR","name":"Oregon"}, {"code":"PA","name":"Pennsylvania"}, {"code":"PR","name":"Puerto Rico"},
+      {"code":"RI","name":"Rhode Island"}, {"code":"SC","name":"South Carolina"}, {"code":"SD","name":"South Dakota"}, {"code":"TN","name":"Tennessee"},
+      {"code":"TX","name":"Texas"}, {"code":"UT","name":"Utah"}, {"code":"VT","name":"Vermont"}, {"code":"VA","name":"Virginia"},
+      {"code":"WA","name":"Washington"}, {"code":"WV","name":"West Virginia"}, {"code":"WI","name":"Wisconsin"}, {"code":"WY","name":"Wyoming"}
     ],
     "cities": {
       "CA": ["SAN FRANCISCO", "LOS ANGELES", "SAN JOSE", "OAKLAND"],
@@ -61,7 +22,7 @@
       "WA": ["SEATTLE", "SPOKANE"],
       "PA": ["PHILADELPHIA", "PITTSBURGH"],
       "MD": ["BALTIMORE"],
-      "DC": ["WASHINGTON"]
+      "DC": ["WASHINGTON]
     }
   },
   "CA": {
@@ -78,7 +39,84 @@
       "AB": ["CALGARY"]
     }
   },
-  "GB": { "states": [{"code":"GB","name":"United Kingdom"}], "cities": {"GB": []} },
-  "IL": { "states": [{"code":"IL","name":"Israel"}], "cities": {"IL": []} },
-  "AE": { "states": [{"code":"AE","name":"United Arab Emirates"}], "cities": {"AE": []} }
+  "AU": {
+    "states": [
+      {"code":"NSW","name":"New South Wales"},
+      {"code":"VIC","name":"Victoria"},
+      {"code":"QLD","name":"Queensland"},
+      {"code":"WA","name":"Western Australia"},
+      {"code":"SA","name":"South Australia"},
+      {"code":"TAS","name":"Tasmania"},
+      {"code":"ACT","name":"Australian Capital Territory"},
+      {"code":"NT","name":"Northern Territory"}
+    ],
+    "cities": {
+      "NSW": ["SYDNEY"],
+      "VIC": ["MELBOURNE"],
+      "QLD": ["BRISBANE"],
+      "WA": ["PERTH"],
+      "SA": ["ADELAIDE"],
+      "ACT": ["CANBERRA"]
+    }
+  },
+  "IN": {
+    "states": [
+      {"code":"MH","name":"Maharashtra"},
+      {"code":"DL","name":"Delhi"},
+      {"code":"KA","name":"Karnataka"},
+      {"code":"TN","name":"Tamil Nadu"},
+      {"code":"TG","name":"Telangana"},
+      {"code":"UP","name":"Uttar Pradesh"},
+      {"code":"GJ","name":"Gujarat"},
+      {"code":"RJ","name":"Rajasthan"},
+      {"code":"WB","name":"West Bengal"},
+      {"code":"HR","name":"Haryana"},
+      {"code":"MP","name":"Madhya Pradesh"}
+    ],
+    "cities": {
+      "MH": ["MUMBAI", "PUNE"],
+      "DL": ["NEW DELHI"],
+      "KA": ["BENGALURU"],
+      "TN": ["CHENNAI"],
+      "TG": ["HYDERABAD"],
+      "GJ": ["AHMEDABAD"],
+      "WB": ["KOLKATA"]
+    }
+  },
+  "GB": {
+    "states": [{"code":"GB","name":"United Kingdom"}],
+    "cities": {
+      "GB": ["LONDON", "MANCHESTER", "BIRMINGHAM", "EDINBURGH"]
+    }
+  },
+  "IL": {
+    "states": [{"code":"IL","name":"Israel"}],
+    "cities": {
+      "IL": ["TEL AVIV", "JERUSALEM"]
+    }
+  },
+  "AE": {
+    "states": [{"code":"AE","name":"United Arab Emirates"}],
+    "cities": {
+      "AE": ["DUBAI", "ABU DHABI"]
+    }
+  },
+  "DE": {
+    "states": [{"code":"DE","name":"Germany"}],
+    "cities": {
+      "DE": ["BERLIN", "MUNICH", "FRANKFURT", "HAMBURG"]
+    }
+  },
+  "FR": {
+    "states": [{"code":"FR","name":"France"}],
+    "cities": {
+      "FR": ["PARIS", "LYON", "MARSEILLE"]
+    }
+  },
+  "JP": {
+    "states": [{"code":"JP","name":"Japan"}],
+    "cities": {
+      "JP": ["TOKYO", "OSAKA", "KYOTO"]
+    }
+  }
 }
