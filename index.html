@@ -17,6 +17,7 @@
         th, td {padding: 12px; text-align: left; border-bottom: 1px solid #ddd;}
         th {background: #1a3c5e; color: white;}
         .highlight {background: #e6f0ff; color: black !important;}
+        .exemptions {background: #e6f7e6; padding: 15px; border-radius: 8px; border-left: 5px solid #4caf50; margin: 20px 0;}
     </style>
 </head>
 <body>
@@ -34,10 +35,15 @@
     <select id="city"></select>
 
     <label>Parking Type</label>
-    <div style="margin:15px 0;">
-        <label><input type="radio" name="parkingType" value="short" checked> Short Term / Adhoc</label><br>
-        <label><input type="radio" name="parkingType" value="subscription"> Monthly Subscription</label>
-    </div>
+    <select id="parkingType">
+        <option value="short">Short Term / Adhoc</option>
+        <option value="subscription">Monthly Subscription</option>
+    </select>
+
+    <label>Exemption Code (optional)</label>
+    <select id="exemptionCode">
+        <option value="">No Exemption (Generic)</option>
+    </select>
 
     <label>Parking Charge Amount</label>
     <input type="number" id="charge" value="100" step="0.01">
@@ -48,18 +54,20 @@
 </div>
 
 <script>
-let parkingDB = {}, countryNames = {}, jurisdictions = {};
+let parkingDB = {}, countryNames = {}, jurisdictions = {}, exemptionsMaster = {};
 
 async function loadData() {
     try {
-        [parkingDB, countryNames, jurisdictions] = await Promise.all([
+        [parkingDB, countryNames, jurisdictions, exemptionsMaster] = await Promise.all([
             fetch('parkingDB.json').then(r => r.json()),
             fetch('countryNames.json').then(r => r.json()),
-            fetch('jurisdictions.json').then(r => r.json())
+            fetch('jurisdictions.json').then(r => r.json()),
+            fetch('exemptions.json').then(r => r.json())
         ]);
         populateCountries();
+        populateExemptionDropdown();
     } catch (e) {
-        alert("JSON files not found. Make sure all 4 files are in the same folder.");
+        alert("JSON files not found.");
     }
 }
 
@@ -78,7 +86,7 @@ function populateCountries() {
 function updateStates() {
     const country = document.getElementById("country").value;
     const sel = document.getElementById("state");
-    sel.innerHTML = "<option value=''>-- Select State/Province --</option>";
+    sel.innerHTML = "<option value=''>-- Select --</option>";
 
     if (jurisdictions[country] && jurisdictions[country].states) {
         jurisdictions[country].states.forEach(s => {
@@ -107,18 +115,30 @@ function updateCities() {
     }
 }
 
+function populateExemptionDropdown() {
+    const sel = document.getElementById("exemptionCode");
+    sel.innerHTML = "<option value=''>No Exemption (Generic)</option>";
+    Object.keys(exemptionsMaster).forEach(code => {
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = code + " - " + exemptionsMaster[code].substring(0, 60) + "...";
+        sel.appendChild(opt);
+    });
+}
+
 function calculateTax() {
     const countryCode = document.getElementById("country").value;
     const stateCode = document.getElementById("state").value;
     const cityCode = document.getElementById("city").value;
-    const isSubscription = document.querySelector('input[name="parkingType"]:checked').value === "subscription";
+    const isSubscription = document.getElementById("parkingType").value === "subscription";
+    const exemptionCode = document.getElementById("exemptionCode").value;
     let charge = parseFloat(document.getElementById("charge").value) || 0;
 
     const key = cityCode || stateCode || countryCode;
     const countryName = countryNames[countryCode] || countryCode;
 
     let data = parkingDB[key] || parkingDB["DEFAULTS"][countryCode] || 
-               {shortTermParking:0, shortTermSales:0, subscriptionParking:0, subscriptionSales:0, stacking:false, exemptions:"Standard rules apply", note:"Verify locally"};
+               {shortTermParking:0, shortTermSales:0, subscriptionParking:0, subscriptionSales:0, stacking:false, exemptions:[], note:"Verify locally"};
 
     let parkingRate = isSubscription ? (data.subscriptionParking || data.shortTermParking || 0) : (data.shortTermParking || 0);
     let salesRate = isSubscription ? (data.subscriptionSales || data.shortTermSales || 0) : (data.shortTermSales || 0);
@@ -135,6 +155,8 @@ function calculateTax() {
     const salesInc = baseInc * (salesRate / 100);
     const totalTaxInc = parkingInc + salesInc;
 
+    let exemptionText = exemptionCode ? exemptionsMaster[exemptionCode] : "No specific exemption applied - Generic rules used";
+
     let html = `
         <h2>Results for ${cityCode || stateCode || 'General'} (${countryName}) — ${isSubscription ? 'Monthly Subscription' : 'Short Term/Adhoc'} — Charge: $${charge.toFixed(2)}</h2>
         <table>
@@ -147,13 +169,13 @@ function calculateTax() {
                 <tr style="font-weight:bold;"><td><strong>Total Payable</strong></td><td>—</td><td>$${totalPayEx.toFixed(2)}</td><td>$${charge.toFixed(2)}</td></tr>
             </tbody>
         </table>
-        <table style="margin-top:20px;">
-            <tr><td><strong>Country</strong></td><td>${countryName}</td></tr>
-            <tr><td><strong>State / Province</strong></td><td>${stateCode || '—'}</td></tr>
-            <tr><td><strong>City</strong></td><td>${cityCode || 'General'}</td></tr>
-            <tr><td><strong>Exemptions</strong></td><td>${data.exemptions}</td></tr>
-            <tr><td><strong>Notes</strong></td><td>${data.note}</td></tr>
-        </table>
+
+        <div class="exemptions">
+            <strong>Applied Exemption:</strong> ${exemptionCode || "None"}<br>
+            ${exemptionText}
+        </div>
+
+        <p><strong>Notes:</strong> ${data.note}</p>
     `;
 
     document.getElementById("output").innerHTML = html;
