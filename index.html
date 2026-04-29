@@ -164,13 +164,21 @@ function calculateTax() {
     const salesInc = baseInc * (salesRate / 100);
     const totalTaxInc = parkingInc + salesInc;
 
-    // Build Applicable Exemptions list
-    let applicableExemptions = data.exemptions.map(code => 
+    // Always show Applicable Exemptions
+    let applicableList = data.exemptions.map(code => 
         exemptionsMaster[code] ? `<strong>${code}:</strong> ${exemptionsMaster[code]}` : code
     ).join("<br>");
 
-    if (!applicableExemptions) {
-        applicableExemptions = "No specific exemptions listed for this location";
+    if (!applicableList) applicableList = "No specific exemptions listed for this location";
+
+    // Selected Exemption Logic
+    let selectedText = "";
+    if (selectedExemption) {
+        if (data.exemptions.includes(selectedExemption)) {
+            selectedText = `<strong>Applied Exemption:</strong> ${selectedExemption}<br>${exemptionsMaster[selectedExemption]}`;
+        } else {
+            selectedText = `<strong style="color:orange;">Chosen exemption (${selectedExemption}) does not apply here.</strong>`;
+        }
     }
 
     let html = `
@@ -188,7 +196,8 @@ function calculateTax() {
 
         <div class="exemptions">
             <strong>Applicable Exemptions:</strong><br>
-            ${applicableExemptions}
+            ${applicableList}<br><br>
+            ${selectedText}
         </div>
 
         <p><strong>Notes:</strong> ${data.note}</p>
