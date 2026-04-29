@@ -1,10 +1,15 @@
 {
   "DEFAULTS": {
-    "US": { "dedicated": 0, "sales": 0, "stacking": false, "exemptions": "Residential, government, long-term leases, non-profits", "note": "Most cities follow state rules only" },
+    "US": { "dedicated": 0, "sales": 0, "stacking": false, "exemptions": "Residential, government, long-term", "note": "Varies by city" },
     "CA": { "dedicated": 0, "sales": 5, "stacking": true, "exemptions": "Residential, government", "note": "GST 5% + provincial HST/PST" },
     "GB": { "dedicated": 0, "sales": 20, "stacking": false, "exemptions": "On-street often exempt", "note": "20% VAT on off-street parking" },
     "IL": { "dedicated": 0, "sales": 17, "stacking": false, "exemptions": "Residential, government", "note": "17% VAT" },
-    "AE": { "dedicated": 0, "sales": 5, "stacking": false, "exemptions": "Residential, government", "note": "5% VAT" }
+    "AE": { "dedicated": 0, "sales": 5, "stacking": false, "exemptions": "Residential, government", "note": "5% VAT" },
+    "AU": { "dedicated": 0, "sales": 10, "stacking": false, "exemptions": "Residential", "note": "10% GST" },
+    "IN": { "dedicated": 0, "sales": 18, "stacking": false, "exemptions": "Residential", "note": "18% GST on parking services" },
+    "DE": { "dedicated": 0, "sales": 19, "stacking": false, "exemptions": "Residential", "note": "19% VAT (standard rate)" },
+    "FR": { "dedicated": 0, "sales": 20, "stacking": false, "exemptions": "Residential", "note": "20% VAT" },
+    "JP": { "dedicated": 0, "sales": 10, "stacking": false, "exemptions": "Residential", "note": "10% Consumption Tax" }
   },
   "SAN FRANCISCO": { "dedicated": 25, "sales": 0, "stacking": false, "exemptions": "Residential, government, non-profits", "note": "25% dedicated parking tax" },
   "LOS ANGELES": { "dedicated": 10, "sales": 0, "stacking": false, "exemptions": "Residential, public meters", "note": "10% parking occupancy tax" },
