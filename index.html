@@ -42,17 +42,13 @@
     <div id="output" class="result" style="display:none;"></div>
 
     <div class="note">
-        US States sorted alphabetically (DC & PR at end) • Flags included • Updated April 2026
+        Separate JSON files used • US States sorted alphabetically (DC after DE, PR after PA)
     </div>
 </div>
 
 <script>
-// ==================== DATA LOADING ====================
+// Load external JSON files
 let parkingDB = {}, countryNames = {}, jurisdictions = {};
-
-const flags = {
-    "US": "🇺🇸", "CA": "🇨🇦", "GB": "🇬🇧", "IL": "🇮🇱", "AE": "🇦🇪"
-};
 
 async function loadData() {
     try {
@@ -63,9 +59,11 @@ async function loadData() {
         ]);
         populateCountries();
     } catch (e) {
-        alert("Data files not found. Please ensure all 3 JSON files are in the same folder as index.html");
+        alert("JSON files not found. Please make sure parkingDB.json, jurisdictions.json, and countryNames.json are in the same folder as index.html");
     }
 }
+
+const flags = { "US": "🇺🇸", "CA": "🇨🇦", "GB": "🇬🇧", "IL": "🇮🇱", "AE": "🇦🇪" };
 
 function populateCountries() {
     const sel = document.getElementById("country");
