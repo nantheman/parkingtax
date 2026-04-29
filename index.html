@@ -35,7 +35,7 @@
 
     <label>Parking Type</label>
     <div style="margin:15px 0;">
-        <label><input type="radio" name="parkingType" value="short" checked> Short Term / Adhoc</label>
+        <label><input type="radio" name="parkingType" value="short" checked> Short Term / Adhoc</label><br>
         <label><input type="radio" name="parkingType" value="subscription"> Monthly Subscription</label>
     </div>
 
@@ -59,7 +59,7 @@ async function loadData() {
         ]);
         populateCountries();
     } catch (e) {
-        alert("JSON files not found.");
+        alert("JSON files not found. Make sure all 4 files are in the same folder.");
     }
 }
 
@@ -78,7 +78,7 @@ function populateCountries() {
 function updateStates() {
     const country = document.getElementById("country").value;
     const sel = document.getElementById("state");
-    sel.innerHTML = "<option value=''>-- Select --</option>";
+    sel.innerHTML = "<option value=''>-- Select State/Province --</option>";
 
     if (jurisdictions[country] && jurisdictions[country].states) {
         jurisdictions[country].states.forEach(s => {
@@ -118,10 +118,10 @@ function calculateTax() {
     const countryName = countryNames[countryCode] || countryCode;
 
     let data = parkingDB[key] || parkingDB["DEFAULTS"][countryCode] || 
-               {parking:0, sales:0, stacking:false, exemptions:"Standard rules apply", note:"Verify locally"};
+               {shortTermParking:0, shortTermSales:0, subscriptionParking:0, subscriptionSales:0, stacking:false, exemptions:"Standard rules apply", note:"Verify locally"};
 
-    let parkingRate = data.parking || 0;
-    let salesRate = data.sales || 0;
+    let parkingRate = isSubscription ? (data.subscriptionParking || data.shortTermParking || 0) : (data.shortTermParking || 0);
+    let salesRate = isSubscription ? (data.subscriptionSales || data.shortTermSales || 0) : (data.shortTermSales || 0);
 
     const totalRate = parkingRate + salesRate;
 
