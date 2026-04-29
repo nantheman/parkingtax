@@ -9,21 +9,20 @@
         .container {max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);}
         h1 {color: #1a3c5e;}
         label {display: block; margin: 15px 0 5px; font-weight: bold;}
-        select, input {width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;}
-        button {background: #1a3c5e; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px;}
+        select, input {width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;}
+        button {background: #1a3c5e; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;}
         button:hover {background: #2a5a8c;}
         .result {margin-top: 30px; padding: 25px; background: #f0f4f8; border-radius: 8px; border: 2px solid #1a3c5e;}
         table {width: 100%; border-collapse: collapse; margin: 20px 0;}
         th, td {padding: 12px; text-align: left; border-bottom: 1px solid #ddd;}
         th {background: #1a3c5e; color: white;}
         .highlight {background: #e6f0ff; color: black !important;}
-        .note {font-size: 0.9em; color: #555; margin-top: 20px;}
     </style>
 </head>
 <body>
 <div class="container">
     <h1>🚗 Parking Tax Calculator</h1>
-    <p><strong>Draft - Expanded International Data</strong></p>
+    <p><strong>Draft</strong></p>
 
     <label>1. Country</label>
     <select id="country" onchange="updateStates()"></select>
@@ -40,10 +39,6 @@
     <button onclick="calculateTax()">Calculate Taxes</button>
 
     <div id="output" class="result" style="display:none;"></div>
-
-    <div class="note">
-        Expanded with more international data • Separate JSON files
-    </div>
 </div>
 
 <script>
@@ -58,7 +53,8 @@ async function loadData() {
         ]);
         populateCountries();
     } catch (e) {
-        alert("JSON files not found. Put all 4 files in the same folder.");
+        document.getElementById("output").innerHTML = "<p style='color:red;'>Error loading JSON files. Make sure all files are uploaded to GitHub.</p>";
+        document.getElementById("output").style.display = "block";
     }
 }
 
@@ -77,7 +73,7 @@ function populateCountries() {
 function updateStates() {
     const country = document.getElementById("country").value;
     const sel = document.getElementById("state");
-    sel.innerHTML = "<option value=''>-- Select State/Province --</option>";
+    sel.innerHTML = "<option value=''>-- Select --</option>";
 
     if (jurisdictions[country] && jurisdictions[country].states) {
         jurisdictions[country].states.forEach(s => {
@@ -116,7 +112,7 @@ function calculateTax() {
     const countryName = countryNames[countryCode] || countryCode;
 
     let data = parkingDB[key] || parkingDB["DEFAULTS"][countryCode] || 
-               {dedicated:0, sales:0, stacking:false, exemptions:"Standard VAT/GST applies", note:"Verify with local authority"};
+               {dedicated:0, sales:0, stacking:false, exemptions:"Standard rules apply", note:"Verify locally"};
 
     const dedicatedRate = data.dedicated || 0;
     const salesRate = data.sales || 0;
@@ -143,13 +139,6 @@ function calculateTax() {
                 <tr><td>Pre-tax Base</td><td>—</td><td>$${charge.toFixed(2)}</td><td>$${baseInc.toFixed(2)}</td></tr>
                 <tr style="font-weight:bold;"><td><strong>Total Payable</strong></td><td>—</td><td>$${totalPayEx.toFixed(2)}</td><td>$${charge.toFixed(2)}</td></tr>
             </tbody>
-        </table>
-        <table style="margin-top:20px;">
-            <tr><td><strong>Country</strong></td><td>${countryName}</td></tr>
-            <tr><td><strong>State / Province</strong></td><td>${stateCode || '—'}</td></tr>
-            <tr><td><strong>City</strong></td><td>${cityCode || 'General'}</td></tr>
-            <tr><td><strong>Exemptions</strong></td><td>${data.exemptions}</td></tr>
-            <tr><td><strong>Notes</strong></td><td>${data.note}</td></tr>
         </table>
     `;
 
