@@ -18,6 +18,7 @@
         th {background: #1a3c5e; color: white;}
         .highlight {background: #e6f0ff; color: black !important;}
         .exemptions {background: #e6f7e6; padding: 15px; border-radius: 8px; border-left: 5px solid #4caf50; margin: 20px 0;}
+        .warning {background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 5px solid #ffc107;}
     </style>
 </head>
 <body>
@@ -121,7 +122,7 @@ function populateExemptionDropdown() {
     Object.keys(exemptionsMaster).forEach(code => {
         const opt = document.createElement("option");
         opt.value = code;
-        opt.textContent = code + " - " + exemptionsMaster[code].substring(0, 60) + "...";
+        opt.textContent = code;
         sel.appendChild(opt);
     });
 }
@@ -131,7 +132,7 @@ function calculateTax() {
     const stateCode = document.getElementById("state").value;
     const cityCode = document.getElementById("city").value;
     const isSubscription = document.getElementById("parkingType").value === "subscription";
-    const exemptionCode = document.getElementById("exemptionCode").value;
+    const selectedExemption = document.getElementById("exemptionCode").value;
     let charge = parseFloat(document.getElementById("charge").value) || 0;
 
     const key = cityCode || stateCode || countryCode;
@@ -155,7 +156,19 @@ function calculateTax() {
     const salesInc = baseInc * (salesRate / 100);
     const totalTaxInc = parkingInc + salesInc;
 
-    let exemptionText = exemptionCode ? exemptionsMaster[exemptionCode] : "No specific exemption applied - Generic rules used";
+    let exemptionText = "";
+    let isExemptionApplied = false;
+
+    if (selectedExemption) {
+        if (data.exemptions && data.exemptions.includes(selectedExemption)) {
+            exemptionText = `<strong>Applied Exemptions:</strong><br>${exemptionsMaster[selectedExemption]}`;
+            isExemptionApplied = true;
+        } else {
+            exemptionText = `<strong style="color:orange;">Chosen exemption (${selectedExemption}) does not apply to this location.</strong>`;
+        }
+    } else {
+        exemptionText = "No exemption selected - Generic rules applied";
+    }
 
     let html = `
         <h2>Results for ${cityCode || stateCode || 'General'} (${countryName}) — ${isSubscription ? 'Monthly Subscription' : 'Short Term/Adhoc'} — Charge: $${charge.toFixed(2)}</h2>
@@ -171,7 +184,6 @@ function calculateTax() {
         </table>
 
         <div class="exemptions">
-            <strong>Applied Exemption:</strong> ${exemptionCode || "None"}<br>
             ${exemptionText}
         </div>
 
