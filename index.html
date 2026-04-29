@@ -6,17 +6,18 @@
     <title>Parking Tax Calculator</title>
     <style>
         body {font-family: Arial, sans-serif; margin: 20px; background: #f8f9fa;}
-        .container {max-width: 1100px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);}
+        .container {max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);}
         h1 {color: #1a3c5e;}
         label {display: block; margin: 15px 0 5px; font-weight: bold;}
-        select, input {width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;}
-        button {background: #1a3c5e; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;}
+        select, input {width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;}
+        button {background: #1a3c5e; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px;}
         button:hover {background: #2a5a8c;}
         .result {margin-top: 30px; padding: 25px; background: #f0f4f8; border-radius: 8px; border: 2px solid #1a3c5e;}
         table {width: 100%; border-collapse: collapse; margin: 20px 0;}
         th, td {padding: 12px; text-align: left; border-bottom: 1px solid #ddd;}
         th {background: #1a3c5e; color: white;}
         .highlight {background: #e6f0ff; color: black !important;}
+        .note {font-size: 0.9em; color: #555; margin-top: 20px;}
     </style>
 </head>
 <body>
@@ -33,84 +34,70 @@
     <label>3. City (optional)</label>
     <select id="city"></select>
 
-    <label>Parking Charge Amount ($)</label>
+    <label>Parking Charge Amount</label>
     <input type="number" id="charge" value="100" step="0.01">
 
     <button onclick="calculateTax()">Calculate Taxes</button>
 
-    <div id="output" style="display:none; margin-top:30px; padding:20px; background:#f0f4f8; border:2px solid #1a3c5e; border-radius:8px;"></div>
+    <div id="output" class="result" style="display:none;"></div>
+
+    <div class="note">
+        4 separate files • US States sorted alphabetically (DC after DE, PR after PA)
+    </div>
 </div>
 
 <script>
-// ==================== ALL DATA EMBEDDED ====================
-const parkingDB = {
-  "DEFAULTS": { "dedicated": 0, "sales": 0, "stacking": false, "exemptions": "Residential, government, long-term", "note": "Check local rules" },
-  "SAN FRANCISCO": { "dedicated": 25, "sales": 0, "stacking": false, "exemptions": "Residential, government", "note": "25% dedicated tax" },
-  "LOS ANGELES": { "dedicated": 10, "sales": 0, "stacking": false, "exemptions": "Residential", "note": "10% occupancy tax" },
-  "SAN JOSE": { "dedicated": 0, "sales": 0, "stacking": false, "exemptions": "Residential, valet", "note": "Generally untaxed" },
-  "CHICAGO": { "dedicated": 23.25, "sales": 12, "stacking": true, "exemptions": "Residential", "note": "High stacked rate" },
-  "NEW YORK": { "dedicated": 8, "sales": 10.375, "stacking": true, "exemptions": "Manhattan residents", "note": "Sales + 8% add-on" },
-  "WASHINGTON DC": { "dedicated": 18, "sales": 0, "stacking": false, "exemptions": "Government, residential", "note": "18% dedicated tax" }
-};
+let parkingDB = {}, countryNames = {}, jurisdictions = {};
 
-const jurisdictions = {
-  "US": {
-    "states": [
-      {"code":"AL","name":"Alabama"},{"code":"AK","name":"Alaska"},{"code":"AZ","name":"Arizona"},{"code":"AR","name":"Arkansas"},
-      {"code":"CA","name":"California"},{"code":"CO","name":"Colorado"},{"code":"CT","name":"Connecticut"},{"code":"DE","name":"Delaware"},
-      {"code":"DC","name":"District of Columbia"},{"code":"FL","name":"Florida"},{"code":"GA","name":"Georgia"},{"code":"HI","name":"Hawaii"},
-      {"code":"ID","name":"Idaho"},{"code":"IL","name":"Illinois"},{"code":"IN","name":"Indiana"},{"code":"IA","name":"Iowa"},
-      {"code":"KS","name":"Kansas"},{"code":"KY","name":"Kentucky"},{"code":"LA","name":"Louisiana"},{"code":"ME","name":"Maine"},
-      {"code":"MD","name":"Maryland"},{"code":"MA","name":"Massachusetts"},{"code":"MI","name":"Michigan"},{"code":"MN","name":"Minnesota"},
-      {"code":"MS","name":"Mississippi"},{"code":"MO","name":"Missouri"},{"code":"MT","name":"Montana"},{"code":"NE","name":"Nebraska"},
-      {"code":"NV","name":"Nevada"},{"code":"NH","name":"New Hampshire"},{"code":"NJ","name":"New Jersey"},{"code":"NM","name":"New Mexico"},
-      {"code":"NY","name":"New York"},{"code":"NC","name":"North Carolina"},{"code":"ND","name":"North Dakota"},{"code":"OH","name":"Ohio"},
-      {"code":"OK","name":"Oklahoma"},{"code":"OR","name":"Oregon"},{"code":"PA","name":"Pennsylvania"},{"code":"PR","name":"Puerto Rico"},
-      {"code":"RI","name":"Rhode Island"},{"code":"SC","name":"South Carolina"},{"code":"SD","name":"South Dakota"},{"code":"TN","name":"Tennessee"},
-      {"code":"TX","name":"Texas"},{"code":"UT","name":"Utah"},{"code":"VT","name":"Vermont"},{"code":"VA","name":"Virginia"},
-      {"code":"WA","name":"Washington"},{"code":"WV","name":"West Virginia"},{"code":"WI","name":"Wisconsin"},{"code":"WY","name":"Wyoming"}
-    ],
-    "cities": {
-      "CA": ["SAN FRANCISCO","LOS ANGELES","SAN JOSE","OAKLAND"],
-      "IL": ["CHICAGO"],
-      "NY": ["NEW YORK"],
-      "WA": ["SEATTLE"],
-      "PA": ["PHILADELPHIA","PITTSBURGH"],
-      "MD": ["BALTIMORE"]
+async function loadData() {
+    try {
+        [parkingDB, countryNames, jurisdictions] = await Promise.all([
+            fetch('parkingDB.json').then(r => r.json()),
+            fetch('countryNames.json').then(r => r.json()),
+            fetch('jurisdictions.json').then(r => r.json())
+        ]);
+        populateCountries();
+    } catch (e) {
+        alert("JSON files not found. Put all 4 files in the same folder.");
     }
-  }
-};
+}
 
-const countryNames = { "US": "United States" };
-
-// Populate
 function populateCountries() {
     const sel = document.getElementById("country");
-    const opt = document.createElement("option");
-    opt.value = "US";
-    opt.textContent = "United States";
-    sel.appendChild(opt);
+    sel.innerHTML = "";
+    Object.keys(jurisdictions).forEach(code => {
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = countryNames[code] || code;
+        sel.appendChild(opt);
+    });
     updateStates();
 }
 
 function updateStates() {
+    const country = document.getElementById("country").value;
     const sel = document.getElementById("state");
-    sel.innerHTML = "<option value=''>-- Select State --</option>";
-    jurisdictions.US.states.forEach(s => {
-        const opt = document.createElement("option");
-        opt.value = s.code;
-        opt.textContent = `${s.code} — ${s.name}`;
-        sel.appendChild(opt);
-    });
+    sel.innerHTML = "<option value=''>-- Select --</option>";
+
+    if (jurisdictions[country] && jurisdictions[country].states) {
+        jurisdictions[country].states.forEach(s => {
+            const opt = document.createElement("option");
+            opt.value = s.code;
+            opt.textContent = `${s.code} — ${s.name}`;
+            sel.appendChild(opt);
+        });
+    }
     updateCities();
 }
 
 function updateCities() {
+    const country = document.getElementById("country").value;
     const state = document.getElementById("state").value;
     const sel = document.getElementById("city");
-    sel.innerHTML = "<option value=''>General</option>";
-    if (jurisdictions.US.cities[state]) {
-        jurisdictions.US.cities[state].forEach(city => {
+    sel.innerHTML = "<option value=''>General / State Default</option>";
+
+    if (jurisdictions[country] && jurisdictions[country].cities && jurisdictions[country].cities[state]) {
+        jurisdictions[country].cities[state].forEach(city => {
             const opt = document.createElement("option");
             opt.value = city;
             opt.textContent = city;
@@ -120,12 +107,16 @@ function updateCities() {
 }
 
 function calculateTax() {
+    const countryCode = document.getElementById("country").value;
     const stateCode = document.getElementById("state").value;
     const cityCode = document.getElementById("city").value;
     let charge = parseFloat(document.getElementById("charge").value) || 0;
 
-    const key = cityCode || stateCode || "US";
-    let data = parkingDB[key] || parkingDB["DEFAULTS"];
+    const key = cityCode || stateCode || countryCode;
+    const countryName = countryNames[countryCode] || countryCode;
+
+    let data = parkingDB[key] || parkingDB["DEFAULTS"][countryCode] || 
+               {dedicated:0, sales:0, stacking:false, exemptions:"Standard rules apply", note:"Verify locally"};
 
     const dedicatedRate = data.dedicated || 0;
     const salesRate = data.sales || 0;
@@ -142,16 +133,23 @@ function calculateTax() {
     const totalTaxInc = dedInc + salesInc;
 
     let html = `
-        <h2>Results — Charge: $${charge.toFixed(2)}</h2>
+        <h2>Results for ${cityCode || stateCode || 'General'} (${countryName}) — Charge: $${charge.toFixed(2)}</h2>
         <table>
-            <thead><tr><th>Category</th><th>Rate</th><th>Tax Exclusive</th><th>Tax Inclusive</th></tr></thead>
+            <thead><tr><th>Category</th><th>Rate</th><th class="highlight">Tax Exclusive</th><th class="highlight">Tax Inclusive</th></tr></thead>
             <tbody>
-                <tr><td>Dedicated Parking Tax</td><td>${dedicatedRate}%</td><td>$${dedEx.toFixed(2)}</td><td>$${dedInc.toFixed(2)}</td></tr>
-                <tr><td>Sales Tax</td><td>${salesRate}%</td><td>$${salesEx.toFixed(2)}</td><td>$${salesInc.toFixed(2)}</td></tr>
-                <tr style="background:#d4e4ff;font-weight:bold;"><td>Total Tax</td><td>${totalRate}%</td><td>$${totalTaxEx.toFixed(2)}</td><td>$${totalTaxInc.toFixed(2)}</td></tr>
+                <tr><td><strong>Dedicated Parking Tax</strong></td><td>${dedicatedRate}%</td><td>$${dedEx.toFixed(2)}</td><td>$${dedInc.toFixed(2)}</td></tr>
+                <tr><td><strong>Sales / VAT / GST / HST</strong></td><td>${salesRate}%</td><td>$${salesEx.toFixed(2)}</td><td>$${salesInc.toFixed(2)}</td></tr>
+                <tr style="background:#d4e4ff; font-weight:bold;"><td><strong>Total Tax</strong></td><td>${totalRate}% ${data.stacking ? '(stacked)' : ''}</td><td>$${totalTaxEx.toFixed(2)}</td><td>$${totalTaxInc.toFixed(2)}</td></tr>
                 <tr><td>Pre-tax Base</td><td>—</td><td>$${charge.toFixed(2)}</td><td>$${baseInc.toFixed(2)}</td></tr>
-                <tr style="font-weight:bold;"><td>Total Payable</td><td>—</td><td>$${totalPayEx.toFixed(2)}</td><td>$${charge.toFixed(2)}</td></tr>
+                <tr style="font-weight:bold;"><td><strong>Total Payable</strong></td><td>—</td><td>$${totalPayEx.toFixed(2)}</td><td>$${charge.toFixed(2)}</td></tr>
             </tbody>
+        </table>
+        <table style="margin-top:20px;">
+            <tr><td><strong>Country</strong></td><td>${countryName}</td></tr>
+            <tr><td><strong>State / Province</strong></td><td>${stateCode || '—'}</td></tr>
+            <tr><td><strong>City</strong></td><td>${cityCode || 'General'}</td></tr>
+            <tr><td><strong>Exemptions</strong></td><td>${data.exemptions}</td></tr>
+            <tr><td><strong>Notes</strong></td><td>${data.note}</td></tr>
         </table>
     `;
 
@@ -159,7 +157,7 @@ function calculateTax() {
     document.getElementById("output").style.display = "block";
 }
 
-populateCountries();
+loadData();
 </script>
 </body>
 </html>
