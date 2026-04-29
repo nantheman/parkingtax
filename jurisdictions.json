@@ -1,14 +1,15 @@
 {
   "US": {
     "states": [
-      {"code":"AK","name":"Alaska"},
       {"code":"AL","name":"Alabama"},
-      {"code":"AR","name":"Arkansas"},
+      {"code":"AK","name":"Alaska"},
       {"code":"AZ","name":"Arizona"},
+      {"code":"AR","name":"Arkansas"},
       {"code":"CA","name":"California"},
       {"code":"CO","name":"Colorado"},
       {"code":"CT","name":"Connecticut"},
       {"code":"DE","name":"Delaware"},
+      {"code":"DC","name":"District of Columbia"},
       {"code":"FL","name":"Florida"},
       {"code":"GA","name":"Georgia"},
       {"code":"HI","name":"Hawaii"},
@@ -39,6 +40,7 @@
       {"code":"OK","name":"Oklahoma"},
       {"code":"OR","name":"Oregon"},
       {"code":"PA","name":"Pennsylvania"},
+      {"code":"PR","name":"Puerto Rico"},
       {"code":"RI","name":"Rhode Island"},
       {"code":"SC","name":"South Carolina"},
       {"code":"SD","name":"South Dakota"},
@@ -50,9 +52,7 @@
       {"code":"WA","name":"Washington"},
       {"code":"WV","name":"West Virginia"},
       {"code":"WI","name":"Wisconsin"},
-      {"code":"WY","name":"Wyoming"},
-      {"code":"DC","name":"District of Columbia"},
-      {"code":"PR","name":"Puerto Rico"}
+      {"code":"WY","name":"Wyoming"}
     ],
     "cities": {
       "CA": ["SAN FRANCISCO", "LOS ANGELES", "SAN JOSE", "OAKLAND"],
