@@ -1,25 +1,31 @@
 {
   "DEFAULTS": {
-    "US": { "dedicated": 0, "sales": 0, "stacking": false, "exemptions": "Residential, government, long-term", "note": "Varies by city" },
-    "CA": { "dedicated": 0, "sales": 5, "stacking": true, "exemptions": "Residential, government", "note": "GST 5% + provincial HST/PST" },
-    "GB": { "dedicated": 0, "sales": 20, "stacking": false, "exemptions": "On-street often exempt", "note": "20% VAT on off-street parking" },
-    "IL": { "dedicated": 0, "sales": 17, "stacking": false, "exemptions": "Residential, government", "note": "17% VAT" },
-    "AE": { "dedicated": 0, "sales": 5, "stacking": false, "exemptions": "Residential, government", "note": "5% VAT" },
-    "AU": { "dedicated": 0, "sales": 10, "stacking": false, "exemptions": "Residential", "note": "10% GST" },
-    "IN": { "dedicated": 0, "sales": 18, "stacking": false, "exemptions": "Residential", "note": "18% GST on parking services" },
-    "DE": { "dedicated": 0, "sales": 19, "stacking": false, "exemptions": "Residential", "note": "19% VAT (standard rate)" },
-    "FR": { "dedicated": 0, "sales": 20, "stacking": false, "exemptions": "Residential", "note": "20% VAT" },
-    "JP": { "dedicated": 0, "sales": 10, "stacking": false, "exemptions": "Residential", "note": "10% Consumption Tax" }
+    "US": { "shortTermParking": 0, "shortTermSales": 0, "subscriptionParking": 0, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential, government, long-term leases, non-profits", "note": "Most cities follow state rules only" },
+    "CA": { "shortTermParking": 0, "shortTermSales": 5, "subscriptionParking": 0, "subscriptionSales": 5, "stacking": true, "exemptions": "Residential, government", "note": "GST 5% + provincial HST/PST" },
+    "GB": { "shortTermParking": 0, "shortTermSales": 20, "subscriptionParking": 0, "subscriptionSales": 20, "stacking": false, "exemptions": "On-street often exempt", "note": "20% VAT" },
+    "IL": { "shortTermParking": 0, "shortTermSales": 17, "subscriptionParking": 0, "subscriptionSales": 17, "stacking": false, "exemptions": "Residential, government", "note": "17% VAT" },
+    "AE": { "shortTermParking": 0, "shortTermSales": 5, "subscriptionParking": 0, "subscriptionSales": 5, "stacking": false, "exemptions": "Residential, government", "note": "5% VAT" },
+    "AU": { "shortTermParking": 0, "shortTermSales": 10, "subscriptionParking": 0, "subscriptionSales": 10, "stacking": false, "exemptions": "Residential", "note": "10% GST" },
+    "IN": { "shortTermParking": 0, "shortTermSales": 18, "subscriptionParking": 0, "subscriptionSales": 18, "stacking": false, "exemptions": "Residential", "note": "18% GST" },
+    "DE": { "shortTermParking": 0, "shortTermSales": 19, "subscriptionParking": 0, "subscriptionSales": 19, "stacking": false, "exemptions": "Residential", "note": "19% VAT" },
+    "FR": { "shortTermParking": 0, "shortTermSales": 20, "subscriptionParking": 0, "subscriptionSales": 20, "stacking": false, "exemptions": "Residential", "note": "20% VAT" },
+    "JP": { "shortTermParking": 0, "shortTermSales": 10, "subscriptionParking": 0, "subscriptionSales": 10, "stacking": false, "exemptions": "Residential", "note": "10% Consumption Tax" }
   },
-  "SAN FRANCISCO": { "dedicated": 25, "sales": 0, "stacking": false, "exemptions": "Residential, government, non-profits", "note": "25% dedicated parking tax" },
-  "LOS ANGELES": { "dedicated": 10, "sales": 0, "stacking": false, "exemptions": "Residential, public meters", "note": "10% parking occupancy tax" },
-  "SAN JOSE": { "dedicated": 0, "sales": 0, "stacking": false, "exemptions": "Residential, government, valet", "note": "Generally untaxed in California" },
-  "OAKLAND": { "dedicated": 18.5, "sales": 0, "stacking": false, "exemptions": "Residential, government", "note": "18.5% dedicated parking tax" },
-  "CHICAGO": { "dedicated": 23.25, "sales": 12, "stacking": true, "exemptions": "Residential, long-term", "note": "23.25% city tax + state/county (~35-41% total)" },
-  "NEW YORK": { "dedicated": 8, "sales": 10.375, "stacking": true, "exemptions": "Manhattan residents exempt from 8%", "note": "10.375% sales + 8% Manhattan parking tax" },
-  "SEATTLE": { "dedicated": 14.5, "sales": 0, "stacking": false, "exemptions": "Residential", "note": "14.5% commercial parking tax" },
-  "PHILADELPHIA": { "dedicated": 22.5, "sales": 0, "stacking": false, "exemptions": "Residential", "note": "22.5% dedicated parking tax" },
-  "PITTSBURGH": { "dedicated": 37.5, "sales": 0, "stacking": false, "exemptions": "Residential", "note": "37.5% dedicated parking tax" },
-  "BALTIMORE": { "dedicated": 20, "sales": 6, "stacking": true, "exemptions": "Residential", "note": "20% dedicated parking tax" },
-  "WASHINGTON": { "dedicated": 18, "sales": 0, "stacking": false, "exemptions": "Government, residential", "note": "18% dedicated parking tax (confirmed)" }
+
+  "SAN FRANCISCO": { "shortTermParking": 25, "shortTermSales": 0, "subscriptionParking": 25, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential, government, non-profits", "note": "25% parking tax" },
+  "LOS ANGELES": { "shortTermParking": 10, "shortTermSales": 0, "subscriptionParking": 10, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential, public meters", "note": "10% parking tax" },
+  "SAN JOSE": { "shortTermParking": 0, "shortTermSales": 0, "subscriptionParking": 0, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential, government, valet", "note": "Generally untaxed" },
+  "OAKLAND": { "shortTermParking": 18.5, "shortTermSales": 0, "subscriptionParking": 18.5, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential, government", "note": "18.5% parking tax" },
+  "CHICAGO": { "shortTermParking": 23.25, "shortTermSales": 12, "subscriptionParking": 23.25, "subscriptionSales": 9, "stacking": true, "exemptions": "Residential, long-term", "note": "Lower sales tax for monthly" },
+  "NEW YORK": { "shortTermParking": 8, "shortTermSales": 10.375, "subscriptionParking": 8, "subscriptionSales": 10.375, "stacking": true, "exemptions": "Manhattan residents", "note": "Same rate for short and subscription" },
+  "WASHINGTON DC": { "shortTermParking": 18, "shortTermSales": 0, "subscriptionParking": 18, "subscriptionSales": 0, "stacking": false, "exemptions": "Government, residential", "note": "18% parking tax" },
+  "SEATTLE": { "shortTermParking": 14.5, "shortTermSales": 0, "subscriptionParking": 14.5, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential", "note": "14.5% parking tax" },
+  "PHILADELPHIA": { "shortTermParking": 22.5, "shortTermSales": 0, "subscriptionParking": 22.5, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential", "note": "22.5% parking tax" },
+  "PITTSBURGH": { "shortTermParking": 37.5, "shortTermSales": 0, "subscriptionParking": 37.5, "subscriptionSales": 0, "stacking": false, "exemptions": "Residential", "note": "37.5% parking tax" },
+
+  "TORONTO": { "shortTermParking": 0, "shortTermSales": 13, "subscriptionParking": 0, "subscriptionSales": 13, "stacking": true, "exemptions": "Residential", "note": "HST 13%" },
+  "VANCOUVER": { "shortTermParking": 0, "shortTermSales": 5, "subscriptionParking": 0, "subscriptionSales": 5, "stacking": true, "exemptions": "Residential", "note": "GST + BC taxes" },
+  "MUMBAI": { "shortTermParking": 0, "shortTermSales": 18, "subscriptionParking": 0, "subscriptionSales": 18, "stacking": false, "exemptions": "Residential", "note": "18% GST" },
+  "NEW DELHI": { "shortTermParking": 0, "shortTermSales": 18, "subscriptionParking": 0, "subscriptionSales": 18, "stacking": false, "exemptions": "Residential", "note": "18% GST" },
+  "SYDNEY": { "shortTermParking": 0, "shortTermSales": 10, "subscriptionParking": 0, "subscriptionSales": 10, "stacking": false, "exemptions": "Residential", "note": "10% GST" }
 }
