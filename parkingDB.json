@@ -1,6 +1,6 @@
 {
   "DEFAULTS": {
-    "US": { "shortTermParking": 0, "shortTermSales": 0, "subscriptionParking": 0, "subscriptionSales": 0, "stacking": false, "exemptions": ["RESIDENTIAL", "GOVERNMENT", "LONG-TERM"], "note": "Most cities follow state rules only" },
+    "US": { "shortTermParking": 0, "shortTermSales": 0, "subscriptionParking": 0, "subscriptionSales": 0, "stacking": false, "exemptions": ["RESIDENTIAL", "GOVERNMENT", "LONG-TERM"], "note": "Most cities follow state rules" },
     "CA": { "shortTermParking": 0, "shortTermSales": 5, "subscriptionParking": 0, "subscriptionSales": 5, "stacking": true, "exemptions": ["RESIDENTIAL", "GOVERNMENT"], "note": "GST 5% + provincial HST/PST" },
     "GB": { "shortTermParking": 0, "shortTermSales": 20, "subscriptionParking": 0, "subscriptionSales": 20, "stacking": false, "exemptions": ["ON-STREET"], "note": "20% VAT on off-street parking" },
     "IL": { "shortTermParking": 0, "shortTermSales": 17, "subscriptionParking": 0, "subscriptionSales": 17, "stacking": false, "exemptions": ["RESIDENTIAL", "GOVERNMENT"], "note": "17% VAT" },
