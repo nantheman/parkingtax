@@ -60,7 +60,8 @@
       "NY": ["NEW YORK"],
       "WA": ["SEATTLE", "SPOKANE"],
       "PA": ["PHILADELPHIA", "PITTSBURGH"],
-      "MD": ["BALTIMORE"]
+      "MD": ["BALTIMORE"],
+      "DC": ["WASHINGTON"]
     }
   },
   "CA": {
