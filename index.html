@@ -9,8 +9,8 @@
         .container {max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);}
         h1 {color: #1a3c5e;}
         label {display: block; margin: 15px 0 5px; font-weight: bold;}
-        select, input {width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;}
-        button {background: #1a3c5e; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;}
+        select, input {width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;}
+        button {background: #1a3c5e; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 10px;}
         button:hover {background: #2a5a8c;}
         .result {margin-top: 30px; padding: 25px; background: #f0f4f8; border-radius: 8px; border: 2px solid #1a3c5e;}
         table {width: 100%; border-collapse: collapse; margin: 20px 0;}
@@ -44,6 +44,11 @@
 <script>
 let parkingDB = {}, countryNames = {}, jurisdictions = {};
 
+const currencySymbols = {
+    "US": "$", "CA": "C$", "GB": "£", "IL": "₪", "AE": "AED",
+    "AU": "A$", "IN": "₹", "DE": "€", "FR": "€", "JP": "¥"
+};
+
 async function loadData() {
     try {
         [parkingDB, countryNames, jurisdictions] = await Promise.all([
@@ -53,8 +58,7 @@ async function loadData() {
         ]);
         populateCountries();
     } catch (e) {
-        document.getElementById("output").innerHTML = "<p style='color:red;'>Error loading JSON files. Make sure all files are uploaded to GitHub.</p>";
-        document.getElementById("output").style.display = "block";
+        alert("JSON files not found.");
     }
 }
 
@@ -73,7 +77,7 @@ function populateCountries() {
 function updateStates() {
     const country = document.getElementById("country").value;
     const sel = document.getElementById("state");
-    sel.innerHTML = "<option value=''>-- Select --</option>";
+    sel.innerHTML = "<option value=''>-- Select State/Province --</option>";
 
     if (jurisdictions[country] && jurisdictions[country].states) {
         jurisdictions[country].states.forEach(s => {
@@ -110,6 +114,7 @@ function calculateTax() {
 
     const key = cityCode || stateCode || countryCode;
     const countryName = countryNames[countryCode] || countryCode;
+    const currency = currencySymbols[countryCode] || "$";
 
     let data = parkingDB[key] || parkingDB["DEFAULTS"][countryCode] || 
                {dedicated:0, sales:0, stacking:false, exemptions:"Standard rules apply", note:"Verify locally"};
@@ -129,15 +134,15 @@ function calculateTax() {
     const totalTaxInc = dedInc + salesInc;
 
     let html = `
-        <h2>Results for ${cityCode || stateCode || 'General'} (${countryName}) — Charge: $${charge.toFixed(2)}</h2>
+        <h2>Results for ${cityCode || stateCode || 'General'} (${countryName}) — Charge: ${currency}${charge.toFixed(2)}</h2>
         <table>
             <thead><tr><th>Category</th><th>Rate</th><th class="highlight">Tax Exclusive</th><th class="highlight">Tax Inclusive</th></tr></thead>
             <tbody>
-                <tr><td><strong>Dedicated Parking Tax</strong></td><td>${dedicatedRate}%</td><td>$${dedEx.toFixed(2)}</td><td>$${dedInc.toFixed(2)}</td></tr>
-                <tr><td><strong>Sales / VAT / GST / HST</strong></td><td>${salesRate}%</td><td>$${salesEx.toFixed(2)}</td><td>$${salesInc.toFixed(2)}</td></tr>
-                <tr style="background:#d4e4ff; font-weight:bold;"><td><strong>Total Tax</strong></td><td>${totalRate}% ${data.stacking ? '(stacked)' : ''}</td><td>$${totalTaxEx.toFixed(2)}</td><td>$${totalTaxInc.toFixed(2)}</td></tr>
-                <tr><td>Pre-tax Base</td><td>—</td><td>$${charge.toFixed(2)}</td><td>$${baseInc.toFixed(2)}</td></tr>
-                <tr style="font-weight:bold;"><td><strong>Total Payable</strong></td><td>—</td><td>$${totalPayEx.toFixed(2)}</td><td>$${charge.toFixed(2)}</td></tr>
+                <tr><td><strong>Dedicated Parking Tax</strong></td><td>${dedicatedRate}%</td><td>${currency}${dedEx.toFixed(2)}</td><td>${currency}${dedInc.toFixed(2)}</td></tr>
+                <tr><td><strong>Sales / VAT / GST / HST</strong></td><td>${salesRate}%</td><td>${currency}${salesEx.toFixed(2)}</td><td>${currency}${salesInc.toFixed(2)}</td></tr>
+                <tr style="background:#d4e4ff; font-weight:bold;"><td><strong>Total Tax</strong></td><td>${totalRate}% ${data.stacking ? '(stacked)' : ''}</td><td>${currency}${totalTaxEx.toFixed(2)}</td><td>${currency}${totalTaxInc.toFixed(2)}</td></tr>
+                <tr><td>Pre-tax Base</td><td>—</td><td>${currency}${charge.toFixed(2)}</td><td>${currency}${baseInc.toFixed(2)}</td></tr>
+                <tr style="font-weight:bold;"><td><strong>Total Payable</strong></td><td>—</td><td>${currency}${totalPayEx.toFixed(2)}</td><td>${currency}${charge.toFixed(2)}</td></tr>
             </tbody>
         </table>
     `;
