@@ -21,5 +21,5 @@
   "PHILADELPHIA": { "dedicated": 22.5, "sales": 0, "stacking": false, "exemptions": "Residential", "note": "22.5% dedicated parking tax" },
   "PITTSBURGH": { "dedicated": 37.5, "sales": 0, "stacking": false, "exemptions": "Residential", "note": "37.5% dedicated parking tax" },
   "BALTIMORE": { "dedicated": 20, "sales": 6, "stacking": true, "exemptions": "Residential", "note": "20% dedicated parking tax" },
-  "WASHINGTON DC": { "dedicated": 18, "sales": 0, "stacking": false, "exemptions": "Government, residential", "note": "18% dedicated parking tax (confirmed)" }
+  "WASHINGTON": { "dedicated": 18, "sales": 0, "stacking": false, "exemptions": "Government, residential", "note": "18% dedicated parking tax (confirmed)" }
 }
